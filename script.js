@@ -4,19 +4,24 @@
 // ========================================
 
 
-// Opening screen
+// ENTER MEMORIES
 function enterMemories() {
 
     const opening = document.getElementById("opening");
 
-    opening.classList.add("hide");
+    if (opening) {
+        opening.classList.add("hide");
+    }
 
-    // Scroll to photos after opening animation
     setTimeout(function () {
 
-        document.getElementById("photos").scrollIntoView({
-            behavior: "smooth"
-        });
+        const photos = document.getElementById("photos");
+
+        if (photos) {
+            photos.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
 
     }, 900);
 }
@@ -34,33 +39,45 @@ photos.forEach(function(photo) {
 
         event.stopPropagation();
 
-        const viewer = document.getElementById("photoViewer");
-        const fullPhoto = document.getElementById("fullPhoto");
+        const viewer =
+            document.getElementById("photoViewer");
 
-        fullPhoto.src = this.src;
+        const fullPhoto =
+            document.getElementById("fullPhoto");
 
-        viewer.style.display = "flex";
+        if (viewer && fullPhoto) {
 
-        document.body.style.overflow = "hidden";
+            fullPhoto.src = this.src;
+
+            viewer.style.display = "flex";
+
+            document.body.style.overflow = "hidden";
+        }
 
     });
 
 });
 
 
+// CLOSE PHOTO VIEWER
+
 function closePhoto() {
 
-    const viewer = document.getElementById("photoViewer");
+    const viewer =
+        document.getElementById("photoViewer");
 
-    viewer.style.display = "none";
+    if (viewer) {
 
-    document.body.style.overflow = "auto";
+        viewer.style.display = "none";
+
+        document.body.style.overflow = "auto";
+    }
 
 }
 
 
 // ========================================
-// ESC KEY CLOSE PHOTO
+// ESCAPE KEY
 // ========================================
 
 document.addEventListener("keydown", function(event) {
@@ -75,59 +92,37 @@ document.addEventListener("keydown", function(event) {
 
 
 // ========================================
-// NAVIGATION
+// SCROLL REVEAL
 // ========================================
 
-document.querySelectorAll(".nav-links a").forEach(function(link) {
+const revealElements =
+    document.querySelectorAll(
+        ".section, .final-message, .video-card, .photo"
+    );
 
-    link.addEventListener("click", function() {
 
-        const target = document.querySelector(
-            this.getAttribute("href")
-        );
+const observer =
+    new IntersectionObserver(
 
-        if (target) {
+        function(entries) {
 
-            target.scrollIntoView({
-                behavior: "smooth"
+            entries.forEach(function(entry) {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                }
+
             });
 
+        },
+
+        {
+            threshold: 0.12
         }
 
-    });
-
-});
-
-
-// ========================================
-// REVEAL ANIMATION
-// ========================================
-
-const revealElements = document.querySelectorAll(
-    ".section, .final-message, .video-card, .photo"
-);
-
-const observer = new IntersectionObserver(
-
-    function(entries) {
-
-        entries.forEach(function(entry) {
-
-            if (entry.isIntersecting) {
-
-                entry.target.classList.add("show");
-
-            }
-
-        });
-
-    },
-
-    {
-        threshold: 0.12
-    }
-
-);
+    );
 
 
 revealElements.forEach(function(element) {
@@ -140,38 +135,48 @@ revealElements.forEach(function(element) {
 
 
 // ========================================
-// PREVENT VIDEO AUTOPLAY
+// VIDEO CONTROL
+// Only one video plays at a time
 // ========================================
 
-const videos = document.querySelectorAll("video");
+const videos =
+    document.querySelectorAll("video");
+
 
 videos.forEach(function(video) {
 
-    video.addEventListener("play", function() {
+    video.addEventListener(
+        "play",
+        function() {
 
-        videos.forEach(function(otherVideo) {
+            videos.forEach(function(otherVideo) {
 
-            if (otherVideo !== video) {
+                if (otherVideo !== video) {
 
-                otherVideo.pause();
+                    otherVideo.pause();
 
-            }
+                }
 
-        });
+            });
 
-    });
+        }
+    );
 
 });
 
 
 // ========================================
-// CONSOLE MESSAGE
+// CONSOLE
 // ========================================
 
 console.log(
-    "✨ LUMINA 2K26 — THE RISE OF NEW ERA ✨"
+    "✨ LUMINA 2K26 ✨"
 );
 
 console.log(
-    "Scan. Relive. Remember."
+    "THE RISE OF NEW ERA"
+);
+
+console.log(
+    "SCAN • RELIVE • REMEMBER"
 );
